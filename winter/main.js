@@ -82,7 +82,7 @@ loadSchwimmen("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&
 async function loadSilvester(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log(geojson);
+    //console.log(geojson);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -105,8 +105,12 @@ async function loadSilvester(url) {
         }
     ).addTo(overlays.silvester);
 
-    
-    function connectDots(geojson) {
+ // features nach Bezeichnung sortieren (Nummer der Station enthalten)
+    geojson.features.sort(function(a, b){
+        return a.properties.BEZEICHNUNG > b.properties.BEZEICHNUNG;
+    });
+    //function which creates arrays with lat and lon of the points
+    function connectDots() {
         let features = geojson.features,
             feature,
             c = [],
@@ -118,14 +122,19 @@ async function loadSilvester(url) {
         }
         return c;
     }
-
+function ArrayFromPoints(geojson){
+let stations = []
     for (i = 0; i< geojson.totalFeatures; i += 1){
-        if (geojson.features[i].properties.TYP = 1){
-    c = connectDots(geojson)
-    console.log(c[1])
-    let polyline = L.polyline(connectDots(geojson)).addTo(overlays.silvester);
+        if (geojson.features[i].properties.TYP == 1){
+        stations.push([geojson.features[i].geometry.coordinates[1],geojson.features[i].geometry.coordinates[0]])
+        
+
+    //let polyline = L.polyline(connectDots(geojson[i])).addTo(overlays.silvester);
         }
     }
- 
+return stations
+}
+let polyline = L.polyline(ArrayFromPoints(geojson),{color: '#ad59c2'}).addTo(overlays.silvester);
+
 }
 loadSilvester("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADPKTOGD&srsName=EPSG:4326&outputFormat=json")
