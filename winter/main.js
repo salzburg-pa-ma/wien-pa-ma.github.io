@@ -21,7 +21,7 @@ let map = L.map("map", {
 
 let overlays = {
     schwimmen: L.featureGroup(),
-    maerkte: L.featureGroup(),
+    silvester: L.featureGroup(),
 };
 
 let layerControl = L.control.layers({
@@ -31,7 +31,7 @@ let layerControl = L.control.layers({
     "BasemapAT hd": L.tileLayer.provider('BasemapAT.highdpi'),
 }, {
     "Schwimmbäder": overlays.schwimmen,
-    "Weihnachtsmärkte": overlays.maerkte
+    "Silvesterpfad": overlays.silvester,
 }).addTo(map)
 
 //Massstab
@@ -52,7 +52,7 @@ let miniMap = new L.Control.MiniMap(
 async function loadSchwimmen(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log(geojson.features[0]);
+    //console.log(geojson.features[0]);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -78,3 +78,24 @@ async function loadSchwimmen(url) {
     }).addTo(overlays.schwimmen);
 }
 loadSchwimmen("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json")
+
+async function loadSilvester(url) {
+    let response = await fetch(url);
+    let geojson = await response.json();
+    console.log(geojson);
+
+    L.geoJSON(geojson, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            
+                return L.marker(latlng,{
+                    icon: L.icon({
+                        iconUrl: "../icons/swimming2.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup("popup");
+            }
+        }
+    ).addTo(overlays.silvester);
+}
+loadSilvester("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADPKTOGD&srsName=EPSG:4326&outputFormat=json")
