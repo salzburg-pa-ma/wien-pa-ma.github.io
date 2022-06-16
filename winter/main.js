@@ -66,7 +66,13 @@ async function loadSchwimmen(url) {
             Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
-                return L.marker(latlng).bindPopup(popup);
+                return L.marker(latlng,{
+                    icon: L.icon({
+                        iconUrl: "../icons/swimming2.png", //aus: https://mapicons.mapsmarker.com/markers/media/photo/?custom_color=ffffff
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup(popup);
             }
         }
     }).addTo(overlays.schwimmen);
