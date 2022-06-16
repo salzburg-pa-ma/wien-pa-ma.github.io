@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Salzburg Sommer</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+    <!--Leaflet providers plugin (von Seite: cdnjs.com)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-providers/1.13.0/leaflet-providers.min.js"
+        integrity="sha512-5EYsvqNbFZ8HX60keFbe56Wr0Mq5J1RrA0KdVcfGDhnjnzIRsDrT/S3cxdzpVN2NGxAB9omgqnlh4/06TvWCMw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="main.css">
+    <script defer src="main.js"></script>
+
+    <!--Leaflet Fullscreen plugin (aus Github (Leaflet fullscreen) README)-->
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css'
+        rel='stylesheet' />
+
+    <!--Leaflet minimap aus dnjs.com-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.min.js"
+        integrity="sha512-WL3nAJlWFKoDShduxQRyY3wkBnQsINXdIfWIW48ZaPgYz1wYNnxIwFMMgigzSgjNBC2WWZ8Y8/sSyUU6abuF0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-minimap/3.6.1/Control.MiniMap.css"
+        integrity="sha512-efbAfGnrnjA+hLwOLu91W034fBGPsMwZMVCTwLUI2PDX/m7rOiuhYZ+D2mZ8rKcpC/I/7pdgoL8T4eYvMHNoQg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <main>
+        <header>
+            <h2>Salzburg-Land Sommeraktivitäten</h2>
+            <article>
+                <div id="map"></div>
+            </article>
+
+            <footer>
+                <strong>Datenquellen:</strong><br>
+                <nav>
+                    <ul>
+                        <li><a href="https://lawinen.report/more/open-data">Winterkarte</a></li>
+                        <li><a
+                                href="https://www.data.gv.at/katalog/dataset/ebc45a6a-3e4f-41d3-bbf1-9c9f59618afc">Wildruhezonen</a>
+                        </li>
+                        <li><a
+                                href="https://www.data.gv.at/katalog/dataset/294de677-b02d-4a74-b189-cc04fa820d96">Skipisten</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </footer>
+    </main>
+    <script>
+
+    </script>
+</body>
+
+</html>
