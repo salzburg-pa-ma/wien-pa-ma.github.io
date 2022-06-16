@@ -52,7 +52,9 @@ let miniMap = new L.Control.MiniMap(
 async function loadSchwimmen(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log(geojson);
+    console.log(geojson.features[0]);
+
+    
 
 }
 loadSchwimmen("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json")
