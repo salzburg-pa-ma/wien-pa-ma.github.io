@@ -15,12 +15,13 @@ let map = L.map("map", {
 })
 
 
-let overlays = {
+let overlay = {
     badestellen: L.featureGroup(),
     waldspielplaetze: L.featureGroup(),
     spielplaetze: L.featureGroup(),
     grillzonen: L.featureGroup(),
     wanderwege: L.featureGroup(),
+    fussgaenger: L.featureGroup(),
 };
 
 let layerControl = L.control.layers({
@@ -32,11 +33,12 @@ let layerControl = L.control.layers({
         L.tileLayer.provider("BasemapAT.overlay"),
     ])
 }, {
-    "Badestellen": overlays.badestellen,
-    "Waldspielplätze": overlays.waldspielplaetze,
-    "Spielplätze": overlays.spielplaetze,
-    "Grillzonen": overlays.grillzonen,
-    "Wanderwege": overlays.wanderwege,
+    "Badestellen": overlay.badestellen,
+    "Waldspielplätze": overlay.waldspielplaetze,
+    "Spielplätze": overlay.spielplaetze,
+    "Grillzonen": overlay.grillzonen,
+    "Wanderwege": overlay.wanderwege,
+    "Fußgänger": overlay.fussgaenger
 }).addTo(map)
 
 //Massstab
@@ -59,14 +61,68 @@ let miniMap = new L.Control.MiniMap(
 async function loadBaden(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log(geojson);
-    let overlay = L.featureGroup();
-    layerControl.addOverlay(overlay, layername);
-    overlay.addTo(map);
+    console.log("Baden", geojson);
 
-
-}
+    L.geoJSON(geojson, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            //Wichtig um Attribute des Popups aufzurufen:
+            //console.log(geoJsonPoint.properties); 
+            let popup = ` 
+            Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
+            <hr>
+            Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
+            Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
+            <a href="${geoJsonPoint.properties.WEITERE_INFOS}">Weblink</a>
+        `;
+            //Attribute im popup unterschiedlich
+// TODO: Bild raussuchen
+        })
+            return L.marker
+            /*(latlng, {
+                icon: L.icon({
+                    iconUrl: `icons/baden.png`,
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -37]
+                })
+            })*/.bindPopup(popup);
+        }
+.addTo(overlay.badestellen);
+    }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json")
+
+// TODO Icons suchen für jede Station
+// TODO Stapeln
+
+
+
+
+
+//Fußgängerzonen Vieanna Sightseeing
+async function loadZones(url) { //anders
+    let response = await fetch(url);
+    let geojson = await response.json();
+    console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
+    
+
+    L.geoJSON(geojson, {
+        style: function (feature) {
+            return {
+                color: "#F012BE",
+                weight: 1,
+                opacity: 0.2,
+                //fillColor: "#F012BE",
+                fillOpacity: 0.2,
+            }
+        }
+    }).bindPopup(function (layer) {
+        return `
+        <h4>Fußgängerzone ${layer.feature.properties.ADRESSE}</h4>
+        <p>Zeitraum: ${layer.feature.properties.ZEITRAUM || ""}</p>
+        <p>${layer.feature.properties.AUSN_TEXT || ""}</p>
+        `;
+    }).addTo(overlay.fussgaenger);
+}
+loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
 
 
 
