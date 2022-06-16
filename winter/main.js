@@ -68,7 +68,7 @@ async function loadSchwimmen(url) {
             `;
                 return L.marker(latlng,{
                     icon: L.icon({
-                        iconUrl: "../icons/swimming2.png", //aus: https://mapicons.mapsmarker.com/markers/media/photo/?custom_color=ffffff
+                        iconUrl: "../icons/swimming2.png",
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
