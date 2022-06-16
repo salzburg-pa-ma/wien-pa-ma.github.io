@@ -20,8 +20,8 @@ let map = L.map("map", {
 
 
 let overlays = {
-    schwimmen : L.featureGroup(),
-    maerkte : L.featureGroup(),
+    schwimmen: L.featureGroup(),
+    maerkte: L.featureGroup(),
 };
 
 let layerControl = L.control.layers({
@@ -57,17 +57,17 @@ async function loadSchwimmen(url) {
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             //nur Schwimmbäder anzeigen, die offen sind und Platz haben
-            let offen  = geoJsonPoint.properties.AUSLASTUNG_AMPEL_KATEGORIE_0;
-            if (offen == 1){
-            //console.log(geoJsonPoint.properties)
-            let popup = `
+            let offen = geoJsonPoint.properties.AUSLASTUNG_AMPEL_KATEGORIE_0;
+            if (offen == 1) {
+                //console.log(geoJsonPoint.properties)
+                let popup = `
             <strong> ${geoJsonPoint.properties.NAME} </strong>
             <hr>
             Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
-            return L.marker(latlng).bindPopup(popup);
-        }
+                return L.marker(latlng).bindPopup(popup);
+            }
         }
     }).addTo(overlays.schwimmen);
 }
