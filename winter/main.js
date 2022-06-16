@@ -86,14 +86,20 @@ async function loadSilvester(url) {
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
-            
+            console.log(geoJsonPoint.properties)
+            let popup = `
+            <strong> ${geoJsonPoint.properties.BEZEICHNUNG} </strong>
+            <hr>
+            ${geoJsonPoint.properties.BESCHREIBUNG}
+            `;
+            let typ = geoJsonPoint.properties.TYP
                 return L.marker(latlng,{
                     icon: L.icon({
-                        iconUrl: "../icons/fireworks.png",
+                        iconUrl: `../icons/silvester_${typ}.png`,
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
-                }).bindPopup("popup");
+                }).bindPopup(popup);
             }
         }
     ).addTo(overlays.silvester);
