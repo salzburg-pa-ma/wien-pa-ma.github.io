@@ -105,10 +105,16 @@ async function loadSilvester(url) {
         }
     ).addTo(overlays.silvester);
 
- // features nach Bezeichnung sortieren (Nummer der Station enthalten)
+ // features sortieren, dass alle Stationen mit Nummer vorne sind
+ geojson.features.sort(function(a, b){
+    return a.properties.BEZEICHNUNG.split("-")[0] > b.properties.BEZEICHNUNG.split("-")[0];
+});
+// features nach Nummer sortieren
     geojson.features.sort(function(a, b){
-        return a.properties.BEZEICHNUNG > b.properties.BEZEICHNUNG;
+        return parseInt(a.properties.BEZEICHNUNG.split("-")[0]) > parseInt(b.properties.BEZEICHNUNG.split("-")[0]);
     });
+console.log(geojson)
+console.log(parseInt("9")>parseInt("10"))
     //function which creates arrays with lat and lon of the points
     function connectDots() {
         let features = geojson.features,
@@ -128,8 +134,6 @@ let stations = []
         if (geojson.features[i].properties.TYP == 1){
         stations.push([geojson.features[i].geometry.coordinates[1],geojson.features[i].geometry.coordinates[0]])
         
-
-    //let polyline = L.polyline(connectDots(geojson[i])).addTo(overlays.silvester);
         }
     }
 return stations
