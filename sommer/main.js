@@ -1,13 +1,13 @@
-let salzburg = {
-    lat: 47.8,
-    lng: 13.033333,
-    title: "Salzburg",
+let wien = {
+    lat: 48.208493,
+    lng: 16.373118,
+    title: "Wien",
 };
 
 let startLayer = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
 let map = L.map("map", {
-    center: [salzburg.lat, salzburg.lng],
+    center: [wien.lat, wien.lng],
     zoom: 11,
     layers: [
         startLayer
