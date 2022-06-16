@@ -82,7 +82,7 @@ loadSchwimmen("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&
 async function loadSilvester(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson);
+    console.log(geojson);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -105,7 +105,7 @@ async function loadSilvester(url) {
         }
     ).addTo(overlays.silvester);
 
-    //if (geojson.)
+    
     function connectDots(geojson) {
         let features = geojson.features,
             feature,
@@ -118,8 +118,14 @@ async function loadSilvester(url) {
         }
         return c;
     }
+
+    for (i = 0; i< geojson.totalFeatures; i += 1){
+        if (geojson.features[i].properties.TYP = 1){
     c = connectDots(geojson)
     console.log(c[1])
     let polyline = L.polyline(connectDots(geojson)).addTo(overlays.silvester);
+        }
+    }
+ 
 }
 loadSilvester("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADPKTOGD&srsName=EPSG:4326&outputFormat=json")
