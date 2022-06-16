@@ -89,7 +89,7 @@ async function loadSilvester(url) {
             
                 return L.marker(latlng,{
                     icon: L.icon({
-                        iconUrl: "../icons/swimming2.png",
+                        iconUrl: "../icons/fireworks.png",
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
