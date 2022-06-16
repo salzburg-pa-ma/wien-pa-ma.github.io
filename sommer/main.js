@@ -76,19 +76,10 @@ async function loadBaden(url) {
         `;
             //Attribute im popup unterschiedlich
 // TODO: Bild raussuchen
-        })
-            return L.marker
-            /*(latlng, {
-                icon: L.icon({
-                    iconUrl: `icons/baden.png`,
-                    iconAnchor: [16, 37],
-                    popupAnchor: [0, -37]
-                })
-            })*/.bindPopup(popup);
-        }
-.addTo(overlay.badestellen);
-    }
-loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json")
+           }).bindPopup(popup);
+    }).addTo(overlay.badestellen);
+}
+loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
 // TODO Icons suchen für jede Station
 // TODO Stapeln
