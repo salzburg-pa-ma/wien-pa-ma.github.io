@@ -54,7 +54,17 @@ async function loadSchwimmen(url) {
     let geojson = await response.json();
     console.log(geojson.features[0]);
 
-    
-
+    L.geoJSON(geojson, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            //console.log(geoJsonPoint.properties)
+            let popup = `
+            <strong> ${geoJsonPoint.properties.NAME} </strong>
+            <hr>
+            Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
+            <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
+            `;
+            return L.marker(latlng).bindPopup(popup);
+        }
+    }).addTo(overlays.schwimmen);
 }
 loadSchwimmen("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json")
