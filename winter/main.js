@@ -116,18 +116,7 @@ async function loadSilvester(url) {
 console.log(geojson)
 console.log(parseInt("9")>parseInt("10"))
     //function which creates arrays with lat and lon of the points
-    function connectDots() {
-        let features = geojson.features,
-            feature,
-            c = [],
-            i;
     
-        for (i = 0; i < features.length; i += 1) {
-            feature = features[i];
-                c.push([feature.geometry.coordinates[1],feature.geometry.coordinates[0]]);
-        }
-        return c;
-    }
 function ArrayFromPoints(geojson){
 let stations = []
     for (i = 0; i< geojson.totalFeatures; i += 1){
