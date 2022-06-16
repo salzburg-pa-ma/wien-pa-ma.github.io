@@ -17,9 +17,10 @@ let map = L.map("map", {
 
 let overlays = {
     badestellen: L.featureGroup(),
-    sportstaetten: L.featureGroup(),
+    waldspielplaetze: L.featureGroup(),
     spielplaetze: L.featureGroup(),
-    wildruhezonen: L.featureGroup(),
+    grillzonen: L.featureGroup(),
+    wanderwege: L.featureGroup(),
 };
 
 let layerControl = L.control.layers({
@@ -32,9 +33,10 @@ let layerControl = L.control.layers({
     ])
 }, {
     "Badestellen": overlays.badestellen,
-    "Sportstätten": overlays.sportstaetten,
+    "Waldspielplätze": overlays.waldspielplaetze,
     "Spielplätze": overlays.spielplaetze,
-    "Wildruhezonen": overlays.wildruhezonen,
+    "Grillzonen": overlays.grillzonen,
+    "Wanderwege": overlays.wanderwege,
 }).addTo(map)
 
 //Massstab
@@ -58,6 +60,10 @@ async function loadBaden(url) {
     let response = await fetch(url);
     let geojson = await response.json();
     console.log(geojson);
+    let overlay = L.featureGroup();
+    layerControl.addOverlay(overlay, layername);
+    overlay.addTo(map);
+
 
 }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json")
