@@ -66,7 +66,7 @@ async function loadSchwimmen(url) {
             Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
-                return L.marker(latlng,{
+                return L.marker(latlng, {
                     icon: L.icon({
                         iconUrl: "../icons/swimming2.png",
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
@@ -94,40 +94,41 @@ async function loadSilvester(url) {
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
             let typ = geoJsonPoint.properties.TYP
-                return L.marker(latlng,{
-                    icon: L.icon({
-                        iconUrl: `../icons/silvester_${typ}.png`,
-                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
-                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
-                    })
-                }).bindPopup(popup);
-            }
+            return L.marker(latlng, {
+                icon: L.icon({
+                    iconUrl: `../icons/silvester_${typ}.png`,
+                    iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                    popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                })
+            }).bindPopup(popup);
         }
-    ).addTo(overlays.silvester);
+    }).addTo(overlays.silvester);
 
- // features sortieren, dass alle Stationen mit Nummer vorne sind
- geojson.features.sort(function(a, b){
-    return a.properties.BEZEICHNUNG.split("-")[0] > b.properties.BEZEICHNUNG.split("-")[0];
-});
-// features nach Nummer sortieren
-    geojson.features.sort(function(a, b){
+    // features sortieren, dass alle Stationen mit Nummer vorne sind
+    geojson.features.sort(function (a, b) {
+        return a.properties.BEZEICHNUNG.split("-")[0] > b.properties.BEZEICHNUNG.split("-")[0];
+    });
+    // features nach Nummer sortieren
+    geojson.features.sort(function (a, b) {
         return parseInt(a.properties.BEZEICHNUNG.split("-")[0]) > parseInt(b.properties.BEZEICHNUNG.split("-")[0]);
     });
-console.log(geojson)
-console.log(parseInt("9")>parseInt("10"))
+    console.log(geojson)
+    console.log(parseInt("9") > parseInt("10"))
     //function which creates arrays with lat and lon of the points
-    
-function ArrayFromPoints(geojson){
-let stations = []
-    for (i = 0; i< geojson.totalFeatures; i += 1){
-        if (geojson.features[i].properties.TYP == 1){
-        stations.push([geojson.features[i].geometry.coordinates[1],geojson.features[i].geometry.coordinates[0]])
-        
+
+    function ArrayFromPoints(geojson) {
+        let stations = []
+        for (i = 0; i < geojson.totalFeatures; i += 1) {
+            if (geojson.features[i].properties.TYP == 1) {
+                stations.push([geojson.features[i].geometry.coordinates[1], geojson.features[i].geometry.coordinates[0]])
+
+            }
         }
+        return stations
     }
-return stations
-}
-let polyline = L.polyline(ArrayFromPoints(geojson),{color: '#ad59c2'}).addTo(overlays.silvester);
+    let polyline = L.polyline(ArrayFromPoints(geojson), {
+        color: '#ad59c2'
+    }).addTo(overlays.silvester);
 
 }
 loadSilvester("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADPKTOGD&srsName=EPSG:4326&outputFormat=json")
