@@ -7,10 +7,6 @@ let wien = {
 
 let startLayer = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
-let winterLayer = L.tileLayer("https://static.avalanche.report/tms/{z}/{x}/{y}.webp", {
-    attribution: '&copy; <a href="https://lawinen.report">CC BY avalanche.report</a>'
-})
-
 let map = L.map("map", {
     center: [wien.lat, wien.lng],
     zoom: wien.zoom,
@@ -27,7 +23,6 @@ let overlays = {
 
 let layerControl = L.control.layers({
     "OpenStreetMap": startLayer,
-    "Winter": winterLayer,
     "OpenTopoMap": L.tileLayer.provider('OpenTopoMap'),
     "BasemapAT hd": L.tileLayer.provider('BasemapAT.highdpi'),
 }, {
