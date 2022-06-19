@@ -19,6 +19,7 @@ let map = L.map("map", {
 let overlays = {
     schwimmen: L.featureGroup(),
     silvester: L.featureGroup(),
+    sport: L.featureGroup(),
 };
 
 let layerControl = L.control.layers({
@@ -28,6 +29,7 @@ let layerControl = L.control.layers({
 }, {
     "Schwimmbäder": overlays.schwimmen,
     "Silvesterpfad": overlays.silvester,
+    "Sportstätten": overlays.sport,
 }).addTo(map)
 
 //Massstab
@@ -119,8 +121,8 @@ async function loadSilvester(url) {
     geojson.features.sort(function (a, b) {
         return parseInt(a.properties.BEZEICHNUNG.split("-")[0]) > parseInt(b.properties.BEZEICHNUNG.split("-")[0]);
     });
-    console.log(geojson)
-    console.log(parseInt("9") > parseInt("10"))
+    //console.log(geojson)
+    //console.log(parseInt("9") > parseInt("10"))
     //function which creates arrays with lat and lon of the points
 
     function ArrayFromPoints(geojson) {
@@ -139,3 +141,24 @@ async function loadSilvester(url) {
 
 }
 loadSilvester("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SILVESPFADPKTOGD&srsName=EPSG:4326&outputFormat=json")
+
+async function loadSport(url) {
+    let response = await fetch(url);
+    let geojson = await response.json();
+
+    
+    L.geoJSON(geojson, {
+        pointToLayer: function (geoJsonPoint, latlng) {
+            console.log(geoJsonPoint.properties);
+                return L.marker(latlng /*, {
+                    icon: L.icon({
+                        iconUrl: "../icons/swimming2.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }*/).bindPopup("popup");
+            }
+        }
+    ).addTo(overlays.sport);
+}
+loadSport("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPORTSTAETTENOGD&srsName=EPSG:4326&outputFormat=json")
