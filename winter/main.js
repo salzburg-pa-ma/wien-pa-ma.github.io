@@ -157,7 +157,7 @@ async function loadSport(url) {
             `;
             //console.log(art.includes('Tennis'));
             if (kategorie == 2 & art.includes('Tennis') || kategorie == 2 & art.includes('Badminton')) {
-                console.log(geoJsonPoint.properties)
+                //console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
                     icon: L.icon({
                         iconUrl: "../icons/tennis.png",
@@ -171,7 +171,7 @@ async function loadSport(url) {
             }
 
             if (kategorie == 2 & art.includes('Kletter')) {
-                console.log(geoJsonPoint.properties)
+                //console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
                     icon: L.icon({
                         iconUrl: "../icons/climbing.png",
@@ -182,7 +182,7 @@ async function loadSport(url) {
             };
 
             if (kategorie == 2 & art.includes('Bowling')) {
-                console.log(geoJsonPoint.properties)
+                //console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
                     icon: L.icon({
                         iconUrl: "../icons/bowling.png",
@@ -191,6 +191,18 @@ async function loadSport(url) {
                     })
                 }).bindPopup(popup);
             };
+
+            if (kategorie == 2 & art.includes('Handball')) {
+                //console.log(geoJsonPoint.properties)
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "../icons/handball.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup(popup);
+            };
+          
         }
     }).addTo(overlays.sport);
 }
