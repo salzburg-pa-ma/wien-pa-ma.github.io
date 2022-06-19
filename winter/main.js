@@ -2,6 +2,7 @@ let wien = {
     lat: 48.208333,
     lng: 16.373056,
     title: "Wien",
+    zoom : 11,
 };
 
 let startLayer = L.tileLayer.provider('OpenStreetMap.Mapnik');
@@ -12,7 +13,7 @@ let winterLayer = L.tileLayer("https://static.avalanche.report/tms/{z}/{x}/{y}.w
 
 let map = L.map("map", {
     center: [wien.lat, wien.lng],
-    zoom: 11,
+    zoom: wien.zoom,
     layers: [
         startLayer
     ],
@@ -48,6 +49,14 @@ let miniMap = new L.Control.MiniMap(
         "toggleDisplay": "True"
     }
 ).addTo(map);
+
+//Reset view
+L.control.resetView({
+    position: "topleft",
+    title: "Reset view",
+    latlng: L.latLng([wien.lat, wien.lng]),
+    zoom: wien.zoom,
+}).addTo(map);
 
 async function loadSchwimmen(url) {
     let response = await fetch(url);
