@@ -156,7 +156,7 @@ async function loadSport(url) {
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
             //console.log(art.includes('Tennis'));
-            if (kategorie == 2 & art.includes('Tennis')) {
+            if (kategorie == 2 & art.includes('Tennis') || kategorie == 2 & art.includes('Badminton')) {
                 console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
                     icon: L.icon({
