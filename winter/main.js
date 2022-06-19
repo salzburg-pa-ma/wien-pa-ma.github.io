@@ -151,8 +151,8 @@ async function loadSport(url) {
             //nur Schwimmbäder anzeigen, die offen sind und Platz haben
             let kategorie = geoJsonPoint.properties.KATEGORIE_NUM;
             if (kategorie == 2) {
-                //console.log(geoJsonPoint.properties)
-                let popup = `
+                console.log(geoJsonPoint.properties)
+                let popup = `<strong>${geoJsonPoint.properties.SPORTSTAETTEN_ART}</strong><br>
             Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
