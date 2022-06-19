@@ -150,15 +150,17 @@ async function loadSport(url) {
         pointToLayer: function (geoJsonPoint, latlng) {
             //nur Schwimmbäder anzeigen, die offen sind und Platz haben
             let kategorie = geoJsonPoint.properties.KATEGORIE_NUM;
-            if (kategorie == 2) {
-                console.log(geoJsonPoint.properties)
-                let popup = `<strong>${geoJsonPoint.properties.SPORTSTAETTEN_ART}</strong><br>
+            let art = geoJsonPoint.properties.SPORTSTAETTEN_ART;
+            let popup = `<strong>${geoJsonPoint.properties.SPORTSTAETTEN_ART}</strong><br>
             Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
             <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
             `;
+            //console.log(art.includes('Tennis'));
+            if (kategorie == 2 & art.includes('Tennis')) {
+                console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
                     icon: L.icon({
-                        iconUrl: "../icons/sport.png",
+                        iconUrl: "../icons/tennis.png",
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
