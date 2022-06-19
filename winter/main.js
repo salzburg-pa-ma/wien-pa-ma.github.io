@@ -58,6 +58,9 @@ L.control.resetView({
     zoom: wien.zoom,
 }).addTo(map);
 
+//Polylone measure
+L.control.polylineMeasure().addTo(map);
+
 async function loadSchwimmen(url) {
     let response = await fetch(url);
     let geojson = await response.json();
