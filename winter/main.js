@@ -2,7 +2,7 @@ let wien = {
     lat: 48.208333,
     lng: 16.373056,
     title: "Wien",
-    zoom : 11,
+    zoom: 11,
 };
 
 let startLayer = L.tileLayer.provider('OpenStreetMap.Mapnik');
@@ -163,6 +163,8 @@ async function loadSport(url) {
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
                 }).bindPopup(popup);
-            }}}).addTo(overlays.sport);
+            }
+        }
+    }).addTo(overlays.sport);
 }
 loadSport("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPORTSTAETTENOGD&srsName=EPSG:4326&outputFormat=json")
