@@ -165,7 +165,11 @@ async function loadSport(url) {
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
                 }).bindPopup(popup);
+            };
+            function IconKategorie(bezeichung, icon){
+                
             }
+
             if (kategorie == 2 & art.includes('Kletter')) {
                 console.log(geoJsonPoint.properties)
                 return L.marker(latlng, {
@@ -175,7 +179,18 @@ async function loadSport(url) {
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
                 }).bindPopup(popup);
-            }
+            };
+
+            if (kategorie == 2 & art.includes('Bowling')) {
+                console.log(geoJsonPoint.properties)
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "../icons/bowling.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup(popup);
+            };
         }
     }).addTo(overlays.sport);
 }
