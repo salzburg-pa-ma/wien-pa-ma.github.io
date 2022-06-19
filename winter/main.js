@@ -146,19 +146,23 @@ async function loadSport(url) {
     let response = await fetch(url);
     let geojson = await response.json();
 
-    
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
-            console.log(geoJsonPoint.properties);
-                return L.marker(latlng /*, {
+            //nur Schwimmbäder anzeigen, die offen sind und Platz haben
+            let kategorie = geoJsonPoint.properties.KATEGORIE_NUM;
+            if (kategorie == 2) {
+                //console.log(geoJsonPoint.properties)
+                let popup = `
+            Adresse: ${geoJsonPoint.properties.ADRESSE}<br>
+            <a href="${geoJsonPoint.properties.WEBLINK1}">Weblink</a>
+            `;
+                return L.marker(latlng, {
                     icon: L.icon({
                         iconUrl: "../icons/swimming2.png",
                         iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
                         popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
                     })
-                }*/).bindPopup("popup");
-            }
-        }
-    ).addTo(overlays.sport);
+                }).bindPopup(popup);
+            }}}).addTo(overlays.sport);
 }
 loadSport("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPORTSTAETTENOGD&srsName=EPSG:4326&outputFormat=json")
