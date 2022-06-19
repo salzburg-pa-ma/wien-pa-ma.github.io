@@ -14,6 +14,16 @@ let map = L.map("map", {
     ],
 })
 
+//Reset view
+L.control.resetView({
+    position: "topleft",
+    title: "Reset view",
+    latlng: L.latLng([wien.lat, wien.lng]),
+    zoom: wien.zoom,
+}).addTo(map);
+
+//Polyline measure
+L.control.polylineMeasure().addTo(map);
 
 let overlay = {
     badestellen: L.featureGroup(),
