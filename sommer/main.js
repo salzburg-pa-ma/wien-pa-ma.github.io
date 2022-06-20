@@ -92,7 +92,7 @@ async function loadBaden(url) {
         `;
                 return L.marker(latlng, {
                     icon: L.icon({
-                        iconUrl: `icons/baden.png`,
+                        iconUrl: `../icons/baden.png`,
                         iconAnchor: [16, 37],
                         popupAnchor: [0, -37]
                     })
