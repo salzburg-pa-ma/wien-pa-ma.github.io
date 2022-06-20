@@ -75,7 +75,7 @@ L.control.polylineMeasure().addTo(map);
 async function loadZones(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
+    console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
 
     L.geoJSON(geojson, {
         style: function (feature) {
@@ -163,7 +163,7 @@ async function loadSpiel(url) {
         disableClusteringAtZoom: 17
     });
     //layerControl.addOverlay(overlay, "Hotels & Unterkünfte Vienna"); //ANDERS
-    spielplaetze.addTo(overlay.spielplaetze);
+    cspielplaetze.addTo(overlay.spielplaetze);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -217,24 +217,22 @@ loadWaldspiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&
 async function loadGrill(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson); //nur ums in der Console zu sehen
+    console.log("Grillzonen: ", geojson); //nur ums in der Console zu sehen
     L.geoJSON(geojson, {
-        pointToLayer: function (geoJsonPoint, latlng) {
-            let popup = `
-            Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
-            <hr>
-            Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
-            Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
-            <a href="${geoJsonPoint.properties.WEITERE_INFO}" target="_blank" >Weblink</a>
-    `;
-            return L.marker(latlng, {
-                icon: L.icon({
-                    iconUrl: `../icons/barbeque.png`,
-                    iconAnchor: [16, 37],
-                    popupAnchor: [0, -37]
-                })
-            }).bindPopup(popup);
+        style: function (feature) {
+            return {
+                color: "#FFDC00",
+                weight: 1,
+                opacity: 0.9,
+                fillOpacity: 0.5,
+            }
         }
+    }).bindPopup(function (layer) {
+        return `
+        Lage: ${layer.feature.properties.LAGE},<br><hr>
+        Reservierung: ${layer.feature.properties.RESERVIERUNG},<br>
+        <a href="${layer.feature.properties.WEBLINK1}" target="_blank" >Weblink</a>
+        `;
     }).addTo(overlay.grillzonen);
 }
 loadGrill("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:GRILLZONEOGD&srsName=EPSG:4326&outputFormat=json");
