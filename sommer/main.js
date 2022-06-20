@@ -88,7 +88,7 @@ async function loadBaden(url) {
                 <hr>
                 Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
                 Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
-                <a href="${geoJsonPoint.properties.WEITERE_INFOS}">Weblink</a>
+                <a href="${geoJsonPoint.properties.WEITERE_INFO}" target="_blank" >Weblink</a>
         `;
                 return L.marker(latlng, {
                     icon: L.icon({
@@ -102,7 +102,7 @@ async function loadBaden(url) {
     }
         loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
-
+// TODO Link badestellen geht nicht
         // TODO Icons suchen für jede Station
         // TODO Stapeln
 
