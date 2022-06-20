@@ -37,7 +37,7 @@ let layerControl = L.control.layers({
     "Spielplätze": overlay.spielplaetze,
     "Grillzonen": overlay.grillzonen,
     "Parkanlagen": overlay.parkanlagen,
-    "Fußgänger": overlay.fussgaenger
+    "Fußgängerzonen": overlay.fussgaenger
 }).addTo(map)
 
 
@@ -127,22 +127,25 @@ loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadPark(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log("Park", geojson); //nur ums in der Console zu sehen
+    console.log("Park", geojson); 
 
     let cparkanlagen = L.markerClusterGroup({
         disableClusteringAtZoom: 17
     });
-    //layerControl.addOverlay(overlay, "Hotels & Unterkünfte Vienna"); //ANDERS
     cparkanlagen.addTo(overlay.parkanlagen);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
-                Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
+                Name: <br><strong>${geoJsonPoint.properties.ANL_NAME}</strong><br>
                 <hr>
-                Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
-                Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
-                <a href="${geoJsonPoint.properties.WEITERE_INFO}" target="_blank" >Weblink</a>
+                Flächengröße: ${geoJsonPoint.properties.FLAECHE}<br>
+                Hunde erlaubt: ${geoJsonPoint.properties.HUNDE_IM_PARK}<br>
+                Spielen erlaubt: ${geoJsonPoint.properties.SPIELEN_IM_PARK}<br>
+                Wasser vorhanden: ${geoJsonPoint.properties.WASSER_IM_PARK}<br>
+                Öffnungszeiten: ${geoJsonPoint.properties.OEFF_ZEITEN} Uhr<br>
+
+                <a href="${geoJsonPoint.properties.WEBLINK1}" target="_blank" >Weblink</a>
         `;
             return L.marker(latlng, {
                 icon: L.icon({
