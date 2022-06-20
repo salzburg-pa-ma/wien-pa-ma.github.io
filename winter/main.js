@@ -29,7 +29,7 @@ let layerControl = L.control.layers({
 }, {
     "Schwimmbäder": overlays.schwimmen,
     "Silvesterpfad": overlays.silvester,
-    "Sportstätten": overlays.sport,
+    "Sportstätten indoor": overlays.sport,
 }).addTo(map)
 
 //Massstab
