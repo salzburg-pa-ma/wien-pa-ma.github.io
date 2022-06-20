@@ -15,6 +15,8 @@ main p {
 
 header {
     text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
 img.banner {
