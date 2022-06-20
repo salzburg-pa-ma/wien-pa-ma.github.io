@@ -47,21 +47,9 @@ article figure img {
 
 }
 
-a {
-    color: black;
-}
-
 footer {
     border-top: 1px solid black;
     padding: 1em 2em 3em 2em;
-}
-
-footer .back {
-    float: left;
-}
-
-footer .next {
-    float: right;
 }
 
 .shadow {
