@@ -159,6 +159,11 @@ async function loadSpiel(url) {
     let geojson = await response.json();
     //console.log(geojson); //nur ums in der Console zu sehen
     
+    let cspielplaetze = L.markerClusterGroup({
+        disableClusteringAtZoom: 17
+    });
+    //layerControl.addOverlay(overlay, "Hotels & Unterkünfte Vienna"); //ANDERS
+    spielplaetze.addTo(overlay.spielplaetze);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
