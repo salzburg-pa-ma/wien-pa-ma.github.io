@@ -14,17 +14,6 @@ let map = L.map("map", {
     ],
 })
 
-//Reset view
-L.control.resetView({
-    position: "topleft",
-    title: "Reset view",
-    latlng: L.latLng([wien.lat, wien.lng]),
-    zoom: wien.zoom,
-}).addTo(map);
-
-//Polyline measure
-L.control.polylineMeasure().addTo(map);
-
 let overlay = {
     badestellen: L.featureGroup(),
     waldspielplaetze: L.featureGroup(),
@@ -51,6 +40,9 @@ let layerControl = L.control.layers({
     "Fußgänger": overlay.fussgaenger
 }).addTo(map)
 
+
+// Einbau von 5 PLUGINS
+
 //Massstab
 L.control.scale({
     imperial: false,
@@ -66,64 +58,77 @@ let miniMap = new L.Control.MiniMap(
     }
 ).addTo(map);
 
-// FUNKTIONEN AUFRUFEN
+//Reset view
+L.control.resetView({
+    position: "topleft",
+    title: "Reset view",
+    latlng: L.latLng([wien.lat, wien.lng]),
+    zoom: wien.zoom,
+}).addTo(map);
+
+//Polyline measure
+L.control.polylineMeasure().addTo(map);
+
+// FUNKTIONEN AUFRUFEN und GeoJSON einspielen
 
 async function loadBaden(url) {
-    let response = await fetch(url);
-    let geojson = await response.json();
-    console.log("Baden", geojson);
+        let response = await fetch(url);
+        let geojson = await response.json();
+        //console.log(geojson); //nur ums in der Console zu sehen
 
-    L.geoJSON(geojson, {
-        pointToLayer: function (geoJsonPoint, latlng) {
-            //Wichtig um Attribute des Popups aufzurufen:
-            //console.log(geoJsonPoint.properties); 
-            let popup = ` 
-            Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
-            <hr>
-            Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
-            Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
-            <a href="${geoJsonPoint.properties.WEITERE_INFOS}">Weblink</a>
+        //Ein- und Ausschalten mit Haken
+        /*let overlay = L.featureGroup();
+        layerControl.addOverlay(overlay, "Baden");
+        overlay.addTo(map); */
+
+        L.geoJSON(geojson, {
+            pointToLayer: function (geoJsonPoint, latlng) {
+                let popup = `
+                Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
+                <hr>
+                Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
+                Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
+                <a href="${geoJsonPoint.properties.WEITERE_INFOS}">Weblink</a>
         `;
-            //Attribute im popup unterschiedlich
-// TODO: Bild raussuchen
-           }).bindPopup(popup);
-    }).addTo(overlay.badestellen);
-}
-loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
-
-// TODO Icons suchen für jede Station
-// TODO Stapeln
-
-
-
-
-
-//Fußgängerzonen Vieanna Sightseeing
-async function loadZones(url) { //anders
-    let response = await fetch(url);
-    let geojson = await response.json();
-    console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
-    
-
-    L.geoJSON(geojson, {
-        style: function (feature) {
-            return {
-                color: "#F012BE",
-                weight: 1,
-                opacity: 0.2,
-                //fillColor: "#F012BE",
-                fillOpacity: 0.2,
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: `icons/baden.png`,
+                        iconAnchor: [16, 37],
+                        popupAnchor: [0, -37]
+                    })
+                }).bindPopup(popup);
             }
-        }
-    }).bindPopup(function (layer) {
-        return `
+        }).addTo(overlay.badestellen);
+    }
+        loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
+
+
+        // TODO Icons suchen für jede Station
+        // TODO Stapeln
+
+
+        //Fußgängerzonen Vieanna Sightseeing
+        async function loadZones(url) { //anders
+            let response = await fetch(url);
+            let geojson = await response.json();
+            console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
+
+            L.geoJSON(geojson, {
+                style: function (feature) {
+                    return {
+                        color: "#F012BE",
+                        weight: 1,
+                        opacity: 0.9,
+                        //fillColor: "#F012BE",
+                        fillOpacity: 0.5,
+                    }
+                }
+            }).bindPopup(function (layer) {
+                return `
         <h4>Fußgängerzone ${layer.feature.properties.ADRESSE}</h4>
         <p>Zeitraum: ${layer.feature.properties.ZEITRAUM || ""}</p>
         <p>${layer.feature.properties.AUSN_TEXT || ""}</p>
         `;
-    }).addTo(overlay.fussgaenger);
-}
-loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
-
-
-
+            }).addTo(overlay.fussgaenger);
+        }
+        loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
