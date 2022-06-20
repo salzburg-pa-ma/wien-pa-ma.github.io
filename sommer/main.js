@@ -71,7 +71,7 @@ L.control.polylineMeasure().addTo(map);
 
 // FUNKTIONEN AUFRUFEN und GeoJSON einspielen
 
-//Fußgängerzonen Vienna Sightseeing -------------------------------------------------------------
+//Fußgängerzonen OKEEE -------------------------------------------------------------
 async function loadZones(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
@@ -97,7 +97,7 @@ async function loadZones(url) { //anders
 }
 loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
 
-// Badestellen Vienna -------------------------------------------------------------
+// Badestellen Vienna OKEEE -------------------------------------------------------------
 async function loadBaden(url) {
     let response = await fetch(url);
     let geojson = await response.json();
@@ -123,13 +123,17 @@ async function loadBaden(url) {
 }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
-
-
 //Parkanlagen Vienna  -------------------------------------------------------------
 async function loadPark(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
     //console.log("Park", geojson); //nur ums in der Console zu sehen
+
+    let cparkanlagen = L.markerClusterGroup({
+        disableClusteringAtZoom: 17
+    });
+    //layerControl.addOverlay(overlay, "Hotels & Unterkünfte Vienna"); //ANDERS
+    cparkanlagen.addTo(overlay.parkanlagen);
 
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
@@ -148,7 +152,7 @@ async function loadPark(url) { //anders
                 })
             }).bindPopup(popup);
         }
-    }).addTo(overlay.parkanlagen);
+    }).addTo(cparkanlagen);
 }
 loadPark("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKINFOOGD&srsName=EPSG:4326&outputFormat=json");
 
@@ -213,7 +217,7 @@ async function loadWaldspiel(url) {
 loadWaldspiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WALDSPIELPLOGD&srsName=EPSG:4326&outputFormat=json");
 
 
-// Grillzonen -------------------------------------------------------------
+// Grillzonen OKEEE -------------------------------------------------------------
 async function loadGrill(url) {
     let response = await fetch(url);
     let geojson = await response.json();
