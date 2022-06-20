@@ -76,11 +76,6 @@ async function loadBaden(url) {
         let geojson = await response.json();
         //console.log(geojson); //nur ums in der Console zu sehen
 
-        //Ein- und Ausschalten mit Haken
-        /*let overlay = L.featureGroup();
-        layerControl.addOverlay(overlay, "Baden");
-        overlay.addTo(map); */
-
         L.geoJSON(geojson, {
             pointToLayer: function (geoJsonPoint, latlng) {
                 let popup = `
@@ -101,11 +96,6 @@ async function loadBaden(url) {
         }).addTo(overlay.badestellen);
     }
         loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
-
-// TODO Link badestellen geht nicht
-        // TODO Icons suchen für jede Station
-        // TODO Stapeln
-
 
         //Fußgängerzonen Vieanna Sightseeing
         async function loadZones(url) { //anders
