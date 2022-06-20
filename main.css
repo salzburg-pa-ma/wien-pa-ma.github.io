@@ -21,11 +21,6 @@ img.banner {
     width: 100%;
 }
 
-img.user {
-    border-radius: 50%;
-    margin-top: -50px;
-}
-
 main {
     background-color: white;
     max-width: 1024px;
@@ -71,21 +66,4 @@ footer .next {
 
 .shadow {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.etappenLink {
-    background: white;
-    border: 1px solid black;
-    padding: 0.5em;
-    width: 2em;
-    text-align: center;
-    margin-top: 2px;
-    display: inline-block;
-}
-
-.etappeAktuell {
-    background: silver;
-    color: white;
-    text-decoration: none;
-    pointer-events: none;
 }
