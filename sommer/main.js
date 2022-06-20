@@ -40,6 +40,7 @@ let layerControl = L.control.layers({
     "Fußgängerzonen": overlay.fussgaenger
 }).addTo(map)
 
+//TODO: Spielplätze, Waldspielplätze, 
 
 // Einbau von 5 PLUGINS
 
@@ -75,7 +76,7 @@ L.control.polylineMeasure().addTo(map);
 async function loadZones(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log("Fußgänger", geojson); //nur ums in der Console zu sehen
+    console.log("Fußgänger: ", geojson); //nur ums in der Console zu sehen
 
     L.geoJSON(geojson, {
         style: function (feature) {
@@ -101,7 +102,7 @@ loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadBaden(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson); //nur ums in der Console zu sehen
+    console.log("Badestellen ", geojson); //nur ums in der Console zu sehen
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
@@ -123,11 +124,11 @@ async function loadBaden(url) {
 }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
-//Parkanlagen Vienna  -------------------------------------------------------------
+//Parkanlagen Vienna OKEE -------------------------------------------------------------
 async function loadPark(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log("Park", geojson); 
+    console.log("Parkanlagen: ", geojson); 
 
     let cparkanlagen = L.markerClusterGroup({
         disableClusteringAtZoom: 17
@@ -164,7 +165,7 @@ loadPark("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&versi
 async function loadSpiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson); //nur ums in der Console zu sehen
+    console.log("Spielplätze: ", geojson); //nur ums in der Console zu sehen
     
     let cspielplaetze = L.markerClusterGroup({
         disableClusteringAtZoom: 17
@@ -197,7 +198,7 @@ loadSpiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadWaldspiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    //console.log(geojson); //nur ums in der Console zu sehen
+    console.log("Waldspielplätze: ", geojson);
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
