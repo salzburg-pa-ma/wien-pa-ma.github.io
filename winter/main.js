@@ -202,7 +202,26 @@ async function loadSport(url) {
                     })
                 }).bindPopup(popup);
             };
-          
+            if (kategorie == 2 & art.includes('Eis')) {
+                //console.log(geoJsonPoint.properties)
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "../icons/icehockey.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup(popup);
+            };
+            if (kategorie == 2 & art.includes('Fußball')) {
+                //console.log(geoJsonPoint.properties)
+                return L.marker(latlng, {
+                    icon: L.icon({
+                        iconUrl: "../icons/soccer.png",
+                        iconAnchor: [16, 37], //Verschieben des Icons dass Spitze richtig ist
+                        popupAnchor: [0, -37] //Verschieben des Popups, dass es nicht das Icon verdeckt
+                    })
+                }).bindPopup(popup);
+            };
         }
     }).addTo(overlays.sport);
 }
