@@ -1,6 +1,7 @@
 let wien = {
     lat: 48.208493,
     lng: 16.373118,
+    zoom: 12,
     title: "Wien",
 };
 
@@ -8,7 +9,7 @@ let startLayer = L.tileLayer.provider('OpenStreetMap.Mapnik');
 
 let map = L.map("map", {
     center: [wien.lat, wien.lng],
-    zoom: 11,
+    zoom: wien.zoom,
     layers: [
         startLayer
     ],
@@ -124,7 +125,7 @@ async function loadBaden(url) {
 }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
-//Parkanlagen Vienna OKEE -------------------------------------------------------------
+//Parkanlagen Vienna OKEEE -------------------------------------------------------------
 async function loadPark(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
@@ -160,8 +161,7 @@ async function loadPark(url) { //anders
 }
 loadPark("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKINFOOGD&srsName=EPSG:4326&outputFormat=json");
 
-
-// Spielplätze -------------------------------------------------------------
+// Spielplätze OKEEE-------------------------------------------------------------
 async function loadSpiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
@@ -176,11 +176,11 @@ async function loadSpiel(url) {
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
-            Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
+            Name: <br><strong>${geoJsonPoint.properties.ANL_NAME}</strong>
             <hr>
-            Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
-            Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
-            <a href="${geoJsonPoint.properties.WEITERE_INFO}" target="_blank" >Weblink</a>
+            Bezirk: ${geoJsonPoint.properties.BEZIRK}<br>
+            Spielplatzelemente: <br>${geoJsonPoint.properties.SPIELPLATZ_DETAIL}<br>
+            Spielplatzelemente: <br>${geoJsonPoint.properties.TYP_DETAIL}<br>
     `;
             return L.marker(latlng, {
                 icon: L.icon({
@@ -194,7 +194,7 @@ async function loadSpiel(url) {
 }
 loadSpiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPIELPLATZPUNKTOGD&srsName=EPSG:4326&outputFormat=json");
 
-// Waldspielplätze -------------------------------------------------------------
+// Waldspielplätze OKEEE -------------------------------------------------------------
 async function loadWaldspiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
@@ -202,10 +202,10 @@ async function loadWaldspiel(url) {
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
-            Name/Standort: <br><strong>${geoJsonPoint.properties.BEZEICHNUNG}</strong>
+            Standort: <br><strong>${geoJsonPoint.properties.STANDORT}</strong>
             <hr>
-            Wassertemperatur: ${geoJsonPoint.properties.WASSERTEMPERATUR}<br>
-            Wasserqualität: ${geoJsonPoint.properties.BADEQUALITAET}<br>
+            Bezirk: ${geoJsonPoint.properties.BEZIRK}<br>
+            Angebot: ${geoJsonPoint.properties.ANGEBOT}<br>
             <a href="${geoJsonPoint.properties.WEITERE_INFO}" target="_blank" >Weblink</a>
     `;
             return L.marker(latlng, {
@@ -220,12 +220,12 @@ async function loadWaldspiel(url) {
 }
 loadWaldspiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WALDSPIELPLOGD&srsName=EPSG:4326&outputFormat=json");
 
-
 // Grillzonen OKEEE -------------------------------------------------------------
 async function loadGrill(url) {
     let response = await fetch(url);
     let geojson = await response.json();
     console.log("Grillzonen: ", geojson); //nur ums in der Console zu sehen
+
     L.geoJSON(geojson, {
         style: function (feature) {
             return {
