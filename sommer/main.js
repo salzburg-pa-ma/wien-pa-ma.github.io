@@ -73,6 +73,8 @@ L.control.polylineMeasure().addTo(map);
 
 // FUNKTIONEN AUFRUFEN und GeoJSON einspielen
 
+// LAYER.properties
+
 //Fußgängerzonen OKEEE -------------------------------------------------------------
 async function loadZones(url) { //anders
     let response = await fetch(url);
@@ -98,6 +100,33 @@ async function loadZones(url) { //anders
     }).addTo(overlay.fussgaenger);
 }
 loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
+
+// Grillzonen OKEEE -------------------------------------------------------------
+async function loadGrill(url) {
+    let response = await fetch(url);
+    let geojson = await response.json();
+    console.log("Grillzonen: ", geojson); //nur ums in der Console zu sehen
+
+    L.geoJSON(geojson, {
+        style: function (feature) {
+            return {
+                color: "#FFDC00",
+                weight: 1,
+                opacity: 0.9,
+                fillOpacity: 0.5,
+            }
+        }
+    }).bindPopup(function (layer) {
+        return `
+        Lage: ${layer.feature.properties.LAGE},<br><hr>
+        Reservierung: ${layer.feature.properties.RESERVIERUNG},<br>
+        <a href="${layer.feature.properties.WEBLINK1}" target="_blank" >Weblink</a>
+        `;
+    }).addTo(overlay.grillzonen);
+}
+loadGrill("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:GRILLZONEOGD&srsName=EPSG:4326&outputFormat=json");
+
+// geoJsonPoint.properties
 
 // Badestellen Vienna OKEEE -------------------------------------------------------------
 async function loadBaden(url) {
@@ -220,28 +249,4 @@ async function loadWaldspiel(url) {
 }
 loadWaldspiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:WALDSPIELPLOGD&srsName=EPSG:4326&outputFormat=json");
 
-// Grillzonen OKEEE -------------------------------------------------------------
-async function loadGrill(url) {
-    let response = await fetch(url);
-    let geojson = await response.json();
-    console.log("Grillzonen: ", geojson); //nur ums in der Console zu sehen
-
-    L.geoJSON(geojson, {
-        style: function (feature) {
-            return {
-                color: "#FFDC00",
-                weight: 1,
-                opacity: 0.9,
-                fillOpacity: 0.5,
-            }
-        }
-    }).bindPopup(function (layer) {
-        return `
-        Lage: ${layer.feature.properties.LAGE},<br><hr>
-        Reservierung: ${layer.feature.properties.RESERVIERUNG},<br>
-        <a href="${layer.feature.properties.WEBLINK1}" target="_blank" >Weblink</a>
-        `;
-    }).addTo(overlay.grillzonen);
-}
-loadGrill("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:GRILLZONEOGD&srsName=EPSG:4326&outputFormat=json");
 
