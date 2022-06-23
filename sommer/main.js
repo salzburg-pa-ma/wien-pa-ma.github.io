@@ -105,7 +105,8 @@ loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&vers
 async function loadGrill(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log("Grillzonen: ", geojson); //nur ums in der Console zu sehen
+    console.log("Grillzonen: ", geojson); 
+    console.log("Grillzonen Geometrie des 1. Eintrags: ", geojson.features[0].geometry); 
 
     L.geoJSON(geojson, {
         style: function (feature) {
@@ -154,17 +155,15 @@ async function loadBaden(url) {
 }
 loadBaden("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BADESTELLENOGD&srsName=EPSG:4326&outputFormat=json");
 
-//Parkanlagen Vienna OKEEE -------------------------------------------------------------
+//Parkanlagen Vienna OKEEE -------------------------------------------------
 async function loadPark(url) { //anders
     let response = await fetch(url);
     let geojson = await response.json();
     console.log("Parkanlagen: ", geojson); 
-
     let cparkanlagen = L.markerClusterGroup({
-        disableClusteringAtZoom: 17
+        disableClusteringAtZoom: 16
     });
     cparkanlagen.addTo(overlay.parkanlagen);
-
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
@@ -190,16 +189,15 @@ async function loadPark(url) { //anders
 }
 loadPark("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKINFOOGD&srsName=EPSG:4326&outputFormat=json");
 
-// Spielplätze OKEEE-------------------------------------------------------------
+// Spielplätze OKEEE-------------------------
 async function loadSpiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
-    console.log("Spielplätze: ", geojson); //nur ums in der Console zu sehen
+    console.log("Spielplätze: ", geojson);
     
     let cspielplaetze = L.markerClusterGroup({
-        disableClusteringAtZoom: 17
+        disableClusteringAtZoom: 16
     });
-    //layerControl.addOverlay(overlay, "Hotels & Unterkünfte Vienna"); //ANDERS
     cspielplaetze.addTo(overlay.spielplaetze);
 
     L.geoJSON(geojson, {
@@ -223,11 +221,13 @@ async function loadSpiel(url) {
 }
 loadSpiel("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SPIELPLATZPUNKTOGD&srsName=EPSG:4326&outputFormat=json");
 
-// Waldspielplätze OKEEE -------------------------------------------------------------
+// Waldspielplätze OKEEE --------------------------------------------
 async function loadWaldspiel(url) {
     let response = await fetch(url);
     let geojson = await response.json();
     console.log("Waldspielplätze: ", geojson);
+    console.log("Waldspielplätze - Geometrie des 1. Eintrags: ", geojson.features[0].geometry); 
+
     L.geoJSON(geojson, {
         pointToLayer: function (geoJsonPoint, latlng) {
             let popup = `
