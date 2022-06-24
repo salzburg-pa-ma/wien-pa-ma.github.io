@@ -28,10 +28,6 @@ let layerControl = L.control.layers({
     "OpenStreetMap": startLayer,
     "OpenTopoMap": L.tileLayer.provider('OpenTopoMap'),
     "BasemapAT hd": L.tileLayer.provider('BasemapAT.highdpi'),
-    "Basemap mit Orthofoto und Beschriftung": L.layerGroup([
-        L.tileLayer.provider("BasemapAT.orthofoto"),
-        L.tileLayer.provider("BasemapAT.overlay"),
-    ])
 }, {
     "Badestellen": overlay.badestellen,
     "Waldspielplätze": overlay.waldspielplaetze,
