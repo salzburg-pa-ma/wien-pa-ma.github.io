@@ -36,6 +36,7 @@ let layerControl = L.control.layers({
     "Parkanlagen": overlay.parkanlagen,
     "Fußgängerzonen": overlay.fussgaenger
 }).addTo(map)
+layerControl.expand()
 
 //TODO: Spielplätze, Waldspielplätze, 
 

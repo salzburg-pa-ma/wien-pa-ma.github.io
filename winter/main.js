@@ -31,6 +31,8 @@ let layerControl = L.control.layers({
     "Silvesterpfad": overlays.silvester,
     "Sportstätten indoor": overlays.sport,
 }).addTo(map)
+layerControl.expand()
+
 
 //Massstab
 L.control.scale({
